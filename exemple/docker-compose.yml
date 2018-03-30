@@ -1,0 +1,24 @@
+version: '2'
+services:
+    myapp:
+        image: node:latest
+        restart: always
+        privileged: true
+        tty: true
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            NODE_ENV: prod
+        ports:
+            - "80"
+        volumes:
+            - '.:/home/app'
+            - '/etc/letsencrypt/:/etc/letsencrypt/'
+            - './node_modules:/home/app/node_modules'
+        network_mode: host
+networks:
+    default:
+        driver: bridge
+    dockernet:
+        external: true
